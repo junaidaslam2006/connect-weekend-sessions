@@ -19,9 +19,8 @@ import {
   Video, 
   Settings, 
   Shield,
-  BarChart3,
   Users,
-  Lock
+  BarChart3
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -59,14 +58,14 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
   ];
 
   return (
-    <Sidebar className="border-r-2 border-yellow-200 bg-gradient-to-b from-yellow-50 to-amber-50">
-      <SidebarHeader className="p-6 border-b-2 border-yellow-200">
+    <Sidebar className="border-r border-yellow-200 bg-white">
+      <SidebarHeader className="p-6 border-b border-yellow-200">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg flex items-center justify-center">
             <Shield className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 bg-clip-text text-transparent">
+            <h2 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent">
               ConnectHub
             </h2>
             <p className="text-sm text-gray-600">Admin Panel</p>
@@ -90,7 +89,7 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
                       isActive={activeView === item.id}
                       className={`w-full justify-start text-left hover:bg-yellow-100 transition-colors duration-200 ${
                         activeView === item.id 
-                          ? 'bg-gradient-to-r from-yellow-200 to-amber-200 text-yellow-800 font-medium' 
+                          ? 'bg-gradient-to-r from-yellow-200 to-orange-200 text-yellow-800 font-medium' 
                           : 'text-gray-700'
                       }`}
                     >
@@ -116,7 +115,7 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
                   isActive={activeView === 'settings'}
                   className={`w-full justify-start text-left hover:bg-yellow-100 transition-colors duration-200 ${
                     activeView === 'settings' 
-                      ? 'bg-gradient-to-r from-yellow-200 to-amber-200 text-yellow-800 font-medium' 
+                      ? 'bg-gradient-to-r from-yellow-200 to-orange-200 text-yellow-800 font-medium' 
                       : 'text-gray-700'
                   }`}
                 >
@@ -129,8 +128,8 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 border-t-2 border-yellow-200">
-        <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-100 to-amber-100 rounded-lg">
+      <SidebarFooter className="p-4 border-t border-yellow-200">
+        <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg">
           <Users className="w-5 h-5 text-yellow-600" />
           <div>
             <p className="text-sm font-medium text-gray-800">Admin User</p>

@@ -96,8 +96,8 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
   const getTypeBadge = (type: string) => {
     const colors = {
       message: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      phone: 'bg-green-100 text-green-800 border-green-300',
-      video: 'bg-purple-100 text-purple-800 border-purple-300'
+      phone: 'bg-orange-100 text-orange-800 border-orange-300',
+      video: 'bg-red-100 text-red-800 border-red-300'
     };
     return colors[type as keyof typeof colors] || colors.message;
   };
@@ -132,7 +132,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
   const renderDashboard = () => (
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-200">
+        <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -144,7 +144,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200">
+        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -158,37 +158,37 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+        <Card className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-green-700">Phone Bookings</p>
-                <p className="text-3xl font-bold text-green-800">
+                <p className="text-sm font-medium text-orange-700">Phone Bookings</p>
+                <p className="text-3xl font-bold text-orange-800">
                   {submissions.filter(s => s.type === 'phone').length}
                 </p>
               </div>
-              <Phone className="w-8 h-8 text-green-600" />
+              <Phone className="w-8 h-8 text-orange-600" />
             </div>
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-2 border-purple-200">
+        <Card className="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-purple-700">Video Bookings</p>
-                <p className="text-3xl font-bold text-purple-800">
+                <p className="text-sm font-medium text-red-700">Video Bookings</p>
+                <p className="text-3xl font-bold text-red-800">
                   {submissions.filter(s => s.type === 'video').length}
                 </p>
               </div>
-              <Video className="w-8 h-8 text-purple-600" />
+              <Video className="w-8 h-8 text-red-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="border-2 border-yellow-200">
+        <Card className="border border-yellow-200">
           <CardHeader>
             <CardTitle className="text-yellow-800">Recent Submissions</CardTitle>
             <CardDescription>Latest user interactions</CardDescription>
@@ -214,7 +214,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-yellow-200">
+        <Card className="border border-yellow-200">
           <CardHeader>
             <CardTitle className="text-yellow-800 flex items-center gap-2">
               <BarChart3 className="w-5 h-5" />
@@ -222,7 +222,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-100 to-amber-100 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg">
               <span className="text-yellow-800 font-medium">This Week</span>
               <span className="text-2xl font-bold text-yellow-900">
                 {submissions.filter(s => {
@@ -233,9 +233,9 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
                 }).length}
               </span>
             </div>
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg">
-              <span className="text-green-800 font-medium">Total Bookings</span>
-              <span className="text-2xl font-bold text-green-900">
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-lg">
+              <span className="text-orange-800 font-medium">Total Bookings</span>
+              <span className="text-2xl font-bold text-orange-900">
                 {submissions.filter(s => s.type !== 'message').length}
               </span>
             </div>
@@ -247,7 +247,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
 
   const renderSubmissionsList = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <Card className="border-2 border-yellow-200">
+      <Card className="border border-yellow-200">
         <CardHeader>
           <CardTitle className="text-yellow-800">
             {activeView === 'messages' ? 'Messages' : 
@@ -296,7 +296,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
         </CardContent>
       </Card>
 
-      <Card className="border-2 border-yellow-200">
+      <Card className="border border-yellow-200">
         <CardHeader>
           <CardTitle className="text-yellow-800">Submission Details</CardTitle>
           <CardDescription>
@@ -376,7 +376,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
   );
 
   const renderSettings = () => (
-    <Card className="max-w-md mx-auto border-2 border-yellow-200">
+    <Card className="max-w-md mx-auto border border-yellow-200">
       <CardHeader>
         <CardTitle className="text-yellow-800">Change Password</CardTitle>
         <CardDescription>Update your admin password</CardDescription>
@@ -406,7 +406,7 @@ export function AdminDashboardContent({ activeView }: AdminDashboardContentProps
         </div>
         <Button 
           onClick={changePassword} 
-          className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600"
+          className="w-full bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-600 hover:to-red-600"
           disabled={!newPassword || !confirmPassword}
         >
           Change Password
