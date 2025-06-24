@@ -13,10 +13,6 @@ import {
   SidebarFooter
 } from '@/components/ui/sidebar';
 import { 
-  Home, 
-  MessageSquare, 
-  Phone, 
-  Video, 
   Settings,
   Shield,
   User
@@ -27,29 +23,6 @@ interface MainSidebarProps {
 }
 
 export function MainSidebar({ onAdminClick }: MainSidebarProps) {
-  const menuItems = [
-    {
-      title: "Home",
-      icon: Home,
-      id: "home"
-    },
-    {
-      title: "Messages", 
-      icon: MessageSquare,
-      id: "messages"
-    },
-    {
-      title: "Phone Calls",
-      icon: Phone, 
-      id: "phone"
-    },
-    {
-      title: "Video Calls",
-      icon: Video,
-      id: "video"
-    }
-  ];
-
   return (
     <Sidebar className="border-r border-blue-200 bg-white/95 backdrop-blur-sm">
       <SidebarHeader className="p-6 border-b border-blue-200">
@@ -69,30 +42,7 @@ export function MainSidebar({ onAdminClick }: MainSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-blue-700 font-semibold">
-            Services
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <SidebarMenuItem key={item.id}>
-                    <SidebarMenuButton
-                      className="w-full justify-start text-left hover:bg-blue-100 transition-colors duration-200 text-gray-700"
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-blue-700 font-semibold">
-            Admin
+            Admin Panel
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

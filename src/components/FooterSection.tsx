@@ -69,7 +69,7 @@ export function FooterSection() {
           </div>
           
           <div className="text-center text-sm text-gray-500 pt-4 border-t border-blue-100 w-full">
-            <p>&copy; 2024 ConnectHub. Built with passion for connecting minds.</p>
+            <p>&copy; 2025 ConnectHub. Built with passion for connecting minds.</p>
           </div>
         </div>
       </div>

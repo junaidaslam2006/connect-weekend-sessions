@@ -1,358 +1,323 @@
-
 import React, { useState } from 'react';
-import { MessageSquare, Phone, Video, Send, Calendar, Clock, User, Mail, PhoneIcon, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { MainSidebar } from '@/components/MainSidebar';
+import { FooterSection } from '@/components/FooterSection';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
-import TimeSlotPicker from '@/components/TimeSlotPicker';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { MainSidebar } from '@/components/MainSidebar';
-import { FooterSection } from '@/components/FooterSection';
+import { MessageSquare, Phone, Video, Calendar as CalendarIcon, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { format } from 'date-fns';
 
 const Index = () => {
-  const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [activeForm, setActiveForm] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: '',
-    selectedDate: '',
+    selectedDate: undefined as Date | undefined,
     selectedTime: ''
   });
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleServiceSelect = (service: string) => {
-    setSelectedService(service);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      selectedDate: '',
-      selectedTime: ''
-    });
-  };
+  const timeSlots = [
+    '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+    '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
+  ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleSubmit = (type: string) => {
+    if (!formData.name || !formData.email || !formData.phone) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const submissions = JSON.parse(localStorage.getItem('connecthub_submissions') || '[]');
-    const newSubmission = {
+    if ((type === 'phone' || type === 'video') && (!formData.selectedDate || !formData.selectedTime)) {
+      toast({
+        title: "Missing Booking Details",
+        description: "Please select a date and time for your appointment.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const submission = {
       id: Date.now(),
-      type: selectedService,
+      type,
       ...formData,
+      selectedDate: formData.selectedDate?.toISOString(),
       timestamp: new Date().toISOString()
     };
-    
-    submissions.push(newSubmission);
-    localStorage.setItem('connecthub_submissions', JSON.stringify(submissions));
-    
+
+    const existingSubmissions = JSON.parse(localStorage.getItem('connecthub_submissions') || '[]');
+    existingSubmissions.push(submission);
+    localStorage.setItem('connecthub_submissions', JSON.stringify(existingSubmissions));
+
     toast({
       title: "Success!",
-      description: selectedService === 'message' 
-        ? "Your message has been sent successfully!" 
-        : "Your booking request has been submitted successfully!",
+      description: `Your ${type} request has been submitted successfully.`,
     });
-    
+
     setFormData({
       name: '',
       email: '',
       phone: '',
       message: '',
-      selectedDate: '',
+      selectedDate: undefined,
       selectedTime: ''
     });
-    setSelectedService(null);
+    setActiveForm(null);
   };
 
-  const handleTimeSlotSelect = (date: string, time: string) => {
-    setFormData({
-      ...formData,
-      selectedDate: date,
-      selectedTime: time
-    });
+  const handleAdminClick = () => {
+    navigate('/admin');
   };
 
   const services = [
     {
       id: 'message',
       title: 'Send Message',
-      description: 'Share your thoughts and ideas with me',
+      description: 'Get in touch with us directly through our messaging system',
       icon: MessageSquare,
-      color: 'from-blue-500 to-purple-600',
-      hoverColor: 'hover:shadow-blue-500/25'
+      color: 'from-blue-500 to-cyan-500',
+      bgColor: 'from-blue-50 to-cyan-50',
+      borderColor: 'border-blue-200'
     },
     {
       id: 'phone',
       title: 'Phone Call',
-      description: '30-minute phone conversation (weekends only)',
+      description: 'Schedule a phone call at your convenient time',
       icon: Phone,
-      color: 'from-green-500 to-teal-600',
-      hoverColor: 'hover:shadow-green-500/25'
+      color: 'from-emerald-500 to-teal-500',
+      bgColor: 'from-emerald-50 to-teal-50',
+      borderColor: 'border-emerald-200'
     },
     {
       id: 'video',
       title: 'Video Call',
-      description: '30-minute video session (weekends only)',
+      description: 'Book a face-to-face video consultation',
       icon: Video,
-      color: 'from-purple-500 to-pink-600',
-      hoverColor: 'hover:shadow-purple-500/25'
+      color: 'from-purple-500 to-pink-500',
+      bgColor: 'from-purple-50 to-pink-50',
+      borderColor: 'border-purple-200'
     }
   ];
 
-  if (showAdminPanel) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Admin Dashboard
-            </h1>
-            <Button 
-              onClick={() => setShowAdminPanel(false)}
-              variant="outline"
-              className="border-blue-200 hover:bg-blue-50"
-            >
-              Back to Home
-            </Button>
-          </div>
-          
-          <div className="grid gap-6">
-            <Card className="border-blue-200 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50">
-                <CardTitle className="text-blue-800">Submissions</CardTitle>
-                <CardDescription>All user submissions and requests</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                {JSON.parse(localStorage.getItem('connecthub_submissions') || '[]').length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">No submissions yet</p>
-                ) : (
-                  <div className="space-y-4">
-                    {JSON.parse(localStorage.getItem('connecthub_submissions') || '[]').map((submission: any) => (
-                      <div key={submission.id} className="p-4 border border-blue-100 rounded-lg bg-gradient-to-r from-blue-50/50 to-purple-50/50">
-                        <div className="flex justify-between items-start mb-2">
-                          <span className="font-semibold text-blue-800 capitalize">{submission.type}</span>
-                          <span className="text-sm text-gray-600">{new Date(submission.timestamp).toLocaleString()}</span>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-2 text-sm">
-                          <p><strong>Name:</strong> {submission.name}</p>
-                          <p><strong>Email:</strong> {submission.email}</p>
-                          <p><strong>Phone:</strong> {submission.phone}</p>
-                          {submission.selectedDate && <p><strong>Date:</strong> {submission.selectedDate}</p>}
-                          {submission.selectedTime && <p><strong>Time:</strong> {submission.selectedTime}</p>}
-                        </div>
-                        {submission.message && (
-                          <p className="mt-2 text-sm"><strong>Message:</strong> {submission.message}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
-        <MainSidebar onAdminClick={() => setShowAdminPanel(true)} />
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+        <MainSidebar onAdminClick={handleAdminClick} />
         
-        {/* Background Effects */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-blue-300/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-72 h-72 bg-purple-300/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/15 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
-        </div>
-
-        <main className="flex-1 relative z-10">
-          <div className="container mx-auto px-4 py-8">
-            {/* Header with Sidebar Trigger */}
+        <main className="flex-1">
+          <div className="p-6">
             <div className="flex items-center gap-4 mb-8">
-              <SidebarTrigger className="bg-blue-100 hover:bg-blue-200 text-blue-800 md:hidden" />
-              <div className="text-center flex-1">
-                <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+              <SidebarTrigger className="bg-blue-100 hover:bg-blue-200 text-blue-800" />
+              <div>
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   ConnectHub
                 </h1>
-                <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
-                  Let's exchange ideas and work on amazing projects together
-                </p>
-                <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6 rounded-full"></div>
+                <p className="text-blue-700 mt-1">Your gateway to seamless communication</p>
               </div>
             </div>
 
-            {!selectedService ? (
-              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-                {services.map((service, index) => {
-                  const Icon = service.icon;
-                  return (
-                    <Card 
-                      key={service.id}
-                      className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl ${service.hoverColor} hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm`}
-                      onClick={() => handleServiceSelect(service.id)}
-                    >
+            {/* Hero Section */}
+            <div className="text-center py-16 px-4 relative overflow-hidden">
+              <div className="absolute inset-0">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-300/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
+              </div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-center gap-2 mb-6">
+                  <Sparkles className="w-8 h-8 text-blue-600 animate-pulse" />
+                  <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    Connect With Ease
+                  </h2>
+                  <Sparkles className="w-8 h-8 text-purple-600 animate-pulse" />
+                </div>
+                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                  Experience the future of communication with our seamless messaging, phone, and video call services.
+                  Choose your preferred method and let's connect!
+                </p>
+              </div>
+            </div>
+
+            {/* Services Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              {services.map((service) => {
+                const Icon = service.icon;
+                return (
+                  <Card
+                    key={service.id}
+                    className={`relative overflow-hidden bg-gradient-to-br ${service.bgColor} ${service.borderColor} border-2 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer group`}
+                    onClick={() => setActiveForm(service.id)}
+                  >
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                    <div className="relative">
                       <CardHeader className="text-center pb-4">
-                        <div className={`w-16 h-16 mx-auto rounded-full bg-gradient-to-r ${service.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                        <div className={`w-16 h-16 mx-auto mb-4 bg-gradient-to-r ${service.color} rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                           <Icon className="w-8 h-8 text-white" />
                         </div>
-                        <CardTitle className="text-xl font-bold text-gray-800">{service.title}</CardTitle>
-                        <CardDescription className="text-gray-600">
+                        <CardTitle className="text-2xl font-bold text-gray-800">{service.title}</CardTitle>
+                        <CardDescription className="text-gray-600 text-base">
                           {service.description}
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="text-center">
-                        <Button className={`w-full bg-gradient-to-r ${service.color} hover:shadow-lg text-white font-semibold py-3 rounded-lg transition-all duration-300`}>
+                        <Button className={`bg-gradient-to-r ${service.color} hover:opacity-90 text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 transform group-hover:scale-105`}>
                           Get Started
-                          <Send className="w-4 h-4 ml-2" />
+                          <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
                       </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="max-w-2xl mx-auto mb-16">
-                <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
-                  <CardHeader className="text-center relative">
-                    <Button 
-                      variant="ghost" 
-                      onClick={() => setSelectedService(null)}
-                      className="absolute top-4 left-4 hover:bg-blue-100"
-                    >
-                      ← Back
-                    </Button>
-                    <div className="pt-8">
-                      <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                        {services.find(s => s.id === selectedService)?.title}
-                      </CardTitle>
-                      <CardDescription className="text-lg text-gray-600 mt-2">
-                        Fill out the form below to {selectedService === 'message' ? 'send your message' : 'book your session'}
-                      </CardDescription>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-6 p-6">
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name" className="flex items-center gap-2 font-medium">
-                            <User className="w-4 h-4 text-blue-600" />
-                            Full Name
-                          </Label>
-                          <Input
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                            className="border-2 border-blue-200 focus:border-blue-400"
-                            placeholder="Enter your name"
-                          />
+                  </Card>
+                );
+              })}
+            </div>
+
+            {/* Active Form */}
+            {activeForm && (
+              <Card className="max-w-2xl mx-auto mb-16 shadow-2xl border-2 border-blue-200 bg-white/90 backdrop-blur-sm">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    {services.find(s => s.id === activeForm)?.title}
+                  </CardTitle>
+                  <CardDescription className="text-lg">
+                    Fill out the form below and we'll get back to you soon
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <Label htmlFor="name" className="text-lg font-medium text-blue-700">Name *</Label>
+                      <Input
+                        id="name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="mt-2 text-lg py-3 border-2 border-blue-200 focus:border-blue-400"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone" className="text-lg font-medium text-blue-700">Phone *</Label>
+                      <Input
+                        id="phone"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="mt-2 text-lg py-3 border-2 border-blue-200 focus:border-blue-400"
+                        placeholder="Your phone number"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="email" className="text-lg font-medium text-blue-700">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="mt-2 text-lg py-3 border-2 border-blue-200 focus:border-blue-400"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+
+                  {(activeForm === 'phone' || activeForm === 'video') && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <Label className="text-lg font-medium text-blue-700">Select Date *</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className="w-full mt-2 justify-start text-left font-normal py-3 text-lg border-2 border-blue-200 hover:border-blue-400"
+                            >
+                              <CalendarIcon className="mr-2 h-5 w-5" />
+                              {formData.selectedDate ? format(formData.selectedDate, "PPP") : "Pick a date"}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0">
+                            <Calendar
+                              mode="single"
+                              selected={formData.selectedDate}
+                              onSelect={(date) => setFormData({ ...formData, selectedDate: date })}
+                              disabled={(date) => date < new Date()}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      <div>
+                        <Label className="text-lg font-medium text-blue-700">Select Time *</Label>
+                        <div className="grid grid-cols-3 gap-2 mt-2">
+                          {timeSlots.map((time) => (
+                            <Button
+                              key={time}
+                              variant={formData.selectedTime === time ? "default" : "outline"}
+                              size="sm"
+                              className={`${
+                                formData.selectedTime === time 
+                                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white' 
+                                  : 'border-blue-200 hover:border-blue-400'
+                              }`}
+                              onClick={() => setFormData({ ...formData, selectedTime: time })}
+                            >
+                              <Clock className="w-3 h-3 mr-1" />
+                              {time}
+                            </Button>
+                          ))}
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="email" className="flex items-center gap-2 font-medium">
-                            <Mail className="w-4 h-4 text-blue-600" />
-                            Email Address
-                          </Label>
-                          <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                            className="border-2 border-blue-200 focus:border-blue-400"
-                            placeholder="Enter your email"
-                          />
-                        </div>
                       </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
-                          <PhoneIcon className="w-4 h-4 text-blue-600" />
-                          Phone Number
-                        </Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          required
-                          className="border-2 border-blue-200 focus:border-blue-400"
-                          placeholder="Enter your phone number"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="message" className="flex items-center gap-2 font-medium">
-                          <MessageSquare className="w-4 h-4 text-blue-600" />
-                          {selectedService === 'message' ? 'Your Message' : 'Additional Notes (Optional)'}
-                        </Label>
-                        <Textarea
-                          id="message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          required={selectedService === 'message'}
-                          className="min-h-[120px] border-2 border-blue-200 focus:border-blue-400"
-                          placeholder={selectedService === 'message' 
-                            ? "Share your thoughts and ideas..." 
-                            : "Any specific topics you'd like to discuss?"
-                          }
-                        />
-                      </div>
-                      
-                      {(selectedService === 'phone' || selectedService === 'video') && (
-                        <div className="space-y-3">
-                          <Label className="flex items-center gap-2 font-medium">
-                            <Clock className="w-4 h-4 text-blue-600" />
-                            Select Preferred Time
-                          </Label>
-                          <TimeSlotPicker 
-                            onTimeSlotSelect={handleTimeSlotSelect}
-                            selectedDate={formData.selectedDate}
-                            selectedTime={formData.selectedTime}
-                          />
-                        </div>
-                      )}
-                      
-                      <div className="pt-4">
-                        <Button 
-                          type="submit" 
-                          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 text-lg rounded-lg transition-all duration-300 hover:shadow-lg"
-                          disabled={
-                            !formData.name || 
-                            !formData.email || 
-                            !formData.phone || 
-                            (selectedService === 'message' && !formData.message) ||
-                            ((selectedService === 'phone' || selectedService === 'video') && (!formData.selectedDate || !formData.selectedTime))
-                          }
-                        >
-                          {selectedService === 'message' ? 'Send Message' : 'Book Session'}
-                          <Send className="w-5 h-5 ml-2" />
-                        </Button>
-                      </div>
-                    </form>
-                  </CardContent>
-                </Card>
-              </div>
+                    </div>
+                  )}
+
+                  <div>
+                    <Label htmlFor="message" className="text-lg font-medium text-blue-700">
+                      {activeForm === 'message' ? 'Message' : 'Additional Notes'}
+                    </Label>
+                    <Textarea
+                      id="message"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="mt-2 min-h-[120px] text-lg border-2 border-blue-200 focus:border-blue-400"
+                      placeholder={
+                        activeForm === 'message' 
+                          ? "Type your message here..." 
+                          : "Any specific topics you'd like to discuss?"
+                      }
+                    />
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <Button 
+                      onClick={() => handleSubmit(activeForm)}
+                      className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      Submit {services.find(s => s.id === activeForm)?.title}
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setActiveForm(null)}
+                      className="px-8 py-4 border-2 border-gray-300 hover:border-gray-400 text-lg rounded-xl"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             )}
           </div>
-
+          
           <FooterSection />
         </main>
       </div>
