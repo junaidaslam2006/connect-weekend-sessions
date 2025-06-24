@@ -13,7 +13,7 @@ import {
   SidebarFooter
 } from '@/components/ui/sidebar';
 import { 
-  Dashboard, 
+  LayoutDashboard, 
   MessageSquare, 
   Phone, 
   Video, 
@@ -33,7 +33,7 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
   const menuItems = [
     {
       title: "Dashboard",
-      icon: Dashboard,
+      icon: LayoutDashboard,
       id: "dashboard"
     },
     {
