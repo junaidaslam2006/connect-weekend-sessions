@@ -10,7 +10,8 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarFooter
+  SidebarFooter,
+  SidebarTrigger
 } from '@/components/ui/sidebar';
 import { 
   LayoutDashboard, 
@@ -58,13 +59,14 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
   ];
 
   return (
-    <Sidebar className="border-r border-yellow-200 bg-white">
+    <Sidebar className="border-r border-yellow-200 bg-white" collapsible="icon">
       <SidebarHeader className="p-6 border-b border-yellow-200">
+        <SidebarTrigger className="mb-4" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg flex items-center justify-center">
             <Shield className="w-6 h-6 text-white" />
           </div>
-          <div>
+          <div className="group-data-[collapsible=icon]:hidden">
             <h2 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent">
               ConnectHub
             </h2>
@@ -92,9 +94,10 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
                           ? 'bg-gradient-to-r from-yellow-200 to-orange-200 text-yellow-800 font-medium' 
                           : 'text-gray-700'
                       }`}
+                      tooltip={item.title}
                     >
                       <Icon className="w-5 h-5" />
-                      <span>{item.title}</span>
+                      <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -118,9 +121,10 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
                       ? 'bg-gradient-to-r from-yellow-200 to-orange-200 text-yellow-800 font-medium' 
                       : 'text-gray-700'
                   }`}
+                  tooltip="Change Password"
                 >
                   <Settings className="w-5 h-5" />
-                  <span>Change Password</span>
+                  <span className="group-data-[collapsible=icon]:hidden">Change Password</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -131,7 +135,7 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
       <SidebarFooter className="p-4 border-t border-yellow-200">
         <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg">
           <Users className="w-5 h-5 text-yellow-600" />
-          <div>
+          <div className="group-data-[collapsible=icon]:hidden">
             <p className="text-sm font-medium text-gray-800">Admin User</p>
             <p className="text-xs text-gray-600">Logged in</p>
           </div>
