@@ -5,9 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+
 interface AdminLoginProps {
   onLogin: () => void;
 }
+
 const AdminLogin: React.FC<AdminLoginProps> = ({
   onLogin
 }) => {
@@ -16,11 +18,12 @@ const AdminLogin: React.FC<AdminLoginProps> = ({
   const {
     toast
   } = useToast();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setTimeout(() => {
-      const storedPassword = localStorage.getItem('admin_password') || 'admin123';
+      const storedPassword = localStorage.getItem('admin_password') || 'admin2025';
       if (password === storedPassword) {
         onLogin();
         toast({
@@ -37,6 +40,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({
       setIsLoading(false);
     }, 1000);
   };
+
   return <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
@@ -78,4 +82,5 @@ const AdminLogin: React.FC<AdminLoginProps> = ({
       </Card>
     </div>;
 };
+
 export default AdminLogin;
