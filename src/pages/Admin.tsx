@@ -18,7 +18,7 @@ const Admin = () => {
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
         <AdminSidebar activeView={activeView} onViewChange={setActiveView} />
         <main className="flex-1 p-6">

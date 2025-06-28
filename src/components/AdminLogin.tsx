@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Lock, Shield } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,8 +24,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({
     e.preventDefault();
     setIsLoading(true);
     setTimeout(() => {
-      const storedPassword = localStorage.getItem('admin_password') || 'admin2025';
-      if (password === storedPassword) {
+      if (password === 'admin2025') {
         onLogin();
         toast({
           title: "Access Granted",
