@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -12,29 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  MessageSquare, 
-  Phone, 
-  Video, 
-  Calendar as CalendarIcon, 
-  Clock, 
-  ArrowRight, 
-  Sparkles,
-  Zap,
-  Crown,
-  Rocket,
-  Shield,
-  ChevronRight,
-  Users,
-  Calendar1,
-  Star,
-  Atom,
-  Orbit,
-  Layers,
-  Hexagon
-} from 'lucide-react';
+import { MessageSquare, Phone, Video, Calendar as CalendarIcon, Clock, ArrowRight, Sparkles, Zap, Crown, Rocket, Shield, ChevronRight, Users, Calendar1, Star, Atom, Orbit, Layers, Hexagon } from 'lucide-react';
 import { format } from 'date-fns';
-
 const Index = () => {
   const [activeForm, setActiveForm] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -45,14 +23,11 @@ const Index = () => {
     selectedDate: undefined as Date | undefined,
     selectedTime: ''
   });
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
-
-  const timeSlots = [
-    '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-    '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
-  ];
-
+  const timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'];
   const handleSubmit = (type: string) => {
     if (!formData.name || !formData.email || !formData.phone) {
       toast({
@@ -62,7 +37,6 @@ const Index = () => {
       });
       return;
     }
-
     if ((type === 'phone' || type === 'video') && (!formData.selectedDate || !formData.selectedTime)) {
       toast({
         title: "Missing Booking Details",
@@ -71,7 +45,6 @@ const Index = () => {
       });
       return;
     }
-
     const submission = {
       id: Date.now(),
       type,
@@ -79,16 +52,13 @@ const Index = () => {
       selectedDate: formData.selectedDate?.toISOString(),
       timestamp: new Date().toISOString()
     };
-
     const existingSubmissions = JSON.parse(localStorage.getItem('connecthub_submissions') || '[]');
     existingSubmissions.push(submission);
     localStorage.setItem('connecthub_submissions', JSON.stringify(existingSubmissions));
-
     toast({
       title: "🎉 Appointment Booked!",
-      description: `Your ${type === 'message' ? 'message' : type === 'phone' ? 'phone call' : 'video call'} has been successfully scheduled.`,
+      description: `Your ${type === 'message' ? 'message' : type === 'phone' ? 'phone call' : 'video call'} has been successfully scheduled.`
     });
-
     setFormData({
       name: '',
       email: '',
@@ -99,49 +69,41 @@ const Index = () => {
     });
     setActiveForm(null);
   };
-
   const handleAdminClick = () => {
     navigate('/admin');
   };
-
-  const services = [
-    {
-      id: 'message',
-      title: 'Send Message',
-      description: 'Send us a message and we will get back to you as soon as possible',
-      icon: MessageSquare,
-      color: 'from-yellow-400 via-yellow-500 to-yellow-600',
-      bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
-      borderColor: 'border-yellow-500/60',
-      accent: 'text-yellow-400',
-      glowColor: 'shadow-yellow-500/50'
-    },
-    {
-      id: 'phone',
-      title: 'Phone Call',
-      description: 'Schedule a phone call appointment with our team',
-      icon: Phone,
-      color: 'from-yellow-500 via-yellow-400 to-yellow-600',
-      bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
-      borderColor: 'border-yellow-500/60',
-      accent: 'text-yellow-400',
-      glowColor: 'shadow-yellow-500/50'
-    },
-    {
-      id: 'video',
-      title: 'Video Call',
-      description: 'Book a video call meeting for face-to-face conversation',
-      icon: Video,
-      color: 'from-yellow-600 via-yellow-500 to-yellow-400',
-      bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
-      borderColor: 'border-yellow-500/60',
-      accent: 'text-yellow-400',
-      glowColor: 'shadow-yellow-500/50'
-    }
-  ];
-
-  return (
-    <SidebarProvider>
+  const services = [{
+    id: 'message',
+    title: 'Send Message',
+    description: 'Send us a message and we will get back to you as soon as possible',
+    icon: MessageSquare,
+    color: 'from-yellow-400 via-yellow-500 to-yellow-600',
+    bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
+    borderColor: 'border-yellow-500/60',
+    accent: 'text-yellow-400',
+    glowColor: 'shadow-yellow-500/50'
+  }, {
+    id: 'phone',
+    title: 'Phone Call',
+    description: 'Schedule a phone call appointment with our team',
+    icon: Phone,
+    color: 'from-yellow-500 via-yellow-400 to-yellow-600',
+    bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
+    borderColor: 'border-yellow-500/60',
+    accent: 'text-yellow-400',
+    glowColor: 'shadow-yellow-500/50'
+  }, {
+    id: 'video',
+    title: 'Video Call',
+    description: 'Book a video call meeting for face-to-face conversation',
+    icon: Video,
+    color: 'from-yellow-600 via-yellow-500 to-yellow-400',
+    bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
+    borderColor: 'border-yellow-500/60',
+    accent: 'text-yellow-400',
+    glowColor: 'shadow-yellow-500/50'
+  }];
+  return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-black via-gray-900 to-yellow-900 relative overflow-hidden">
         {/* Ultra-Premium Animated Background */}
         <div className="absolute inset-0 z-0">
@@ -242,17 +204,11 @@ const Index = () => {
             {/* Ultra-Premium Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-24 max-w-8xl mx-auto">
               {services.map((service, index) => {
-                const Icon = service.icon;
-                return (
-                  <Card
-                    key={service.id}
-                    className={`relative overflow-hidden bg-gradient-to-br ${service.bgColor} ${service.borderColor} border-2 hover:shadow-2xl ${service.glowColor} hover:shadow-2xl transition-all duration-1000 transform hover:scale-110 cursor-pointer group backdrop-blur-2xl`}
-                    onClick={() => setActiveForm(service.id)}
-                    style={{
-                      animationDelay: `${index * 200}ms`,
-                      animation: 'fade-in 1s ease-out forwards'
-                    }}
-                  >
+              const Icon = service.icon;
+              return <Card key={service.id} className={`relative overflow-hidden bg-gradient-to-br ${service.bgColor} ${service.borderColor} border-2 hover:shadow-2xl ${service.glowColor} hover:shadow-2xl transition-all duration-1000 transform hover:scale-110 cursor-pointer group backdrop-blur-2xl`} onClick={() => setActiveForm(service.id)} style={{
+                animationDelay: `${index * 200}ms`,
+                animation: 'fade-in 1s ease-out forwards'
+              }}>
                     {/* Animated border */}
                     <div className="absolute -inset-1 bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 rounded-2xl blur opacity-30 group-hover:opacity-70 transition duration-1000 animate-pulse"></div>
                     
@@ -275,7 +231,7 @@ const Index = () => {
                           </div>
                         </div>
                         <CardTitle className="text-4xl font-black text-yellow-400 mb-6 group-hover:text-yellow-300 transition-colors duration-500">{service.title}</CardTitle>
-                        <CardDescription className="text-yellow-100/95 text-xl leading-relaxed font-semibold">
+                        <CardDescription className="text-xl leading-relaxed font-semibold text-gray-900 text-center">
                           {service.description}
                         </CardDescription>
                       </CardHeader>
@@ -289,14 +245,12 @@ const Index = () => {
                         </Button>
                       </CardContent>
                     </div>
-                  </Card>
-                );
-              })}
+                  </Card>;
+            })}
             </div>
 
             {/* Ultra-Premium Active Form */}
-            {activeForm && (
-              <Card className="max-w-6xl mx-auto mb-24 shadow-2xl border-2 border-yellow-500/60 bg-gradient-to-br from-black/98 via-gray-900/98 to-yellow-900/20 backdrop-blur-2xl relative">
+            {activeForm && <Card className="max-w-6xl mx-auto mb-24 shadow-2xl border-2 border-yellow-500/60 bg-gradient-to-br from-black/98 via-gray-900/98 to-yellow-900/20 backdrop-blur-2xl relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 rounded-2xl blur opacity-40 animate-pulse"></div>
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.1),transparent_70%)] rounded-2xl"></div>
                 
@@ -317,110 +271,72 @@ const Index = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                       <div>
                         <Label htmlFor="name" className="text-2xl font-black text-yellow-400 mb-4 block">Full Name *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                          placeholder="Enter your full name"
-                        />
+                        <Input id="name" value={formData.name} onChange={e => setFormData({
+                      ...formData,
+                      name: e.target.value
+                    })} className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300" placeholder="Enter your full name" />
                       </div>
                       <div>
                         <Label htmlFor="phone" className="text-2xl font-black text-yellow-400 mb-4 block">Phone Number *</Label>
-                        <Input
-                          id="phone"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                          placeholder="Your phone number"
-                        />
+                        <Input id="phone" value={formData.phone} onChange={e => setFormData({
+                      ...formData,
+                      phone: e.target.value
+                    })} className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300" placeholder="Your phone number" />
                       </div>
                     </div>
                     
                     <div>
                       <Label htmlFor="email" className="text-2xl font-black text-yellow-400 mb-4 block">Email Address *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                        placeholder="your.email@example.com"
-                      />
+                      <Input id="email" type="email" value={formData.email} onChange={e => setFormData({
+                    ...formData,
+                    email: e.target.value
+                  })} className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300" placeholder="your.email@example.com" />
                     </div>
 
-                    {(activeForm === 'phone' || activeForm === 'video') && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    {(activeForm === 'phone' || activeForm === 'video') && <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div>
                           <Label className="text-2xl font-black text-yellow-400 mb-4 block">Appointment Date *</Label>
                           <Popover>
                             <PopoverTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="w-full justify-start text-left font-normal py-6 text-xl bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                              >
+                              <Button variant="outline" className="w-full justify-start text-left font-normal py-6 text-xl bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 backdrop-blur-sm rounded-2xl transition-all duration-300">
                                 <Calendar1 className="mr-4 h-8 w-8" />
                                 {formData.selectedDate ? format(formData.selectedDate, "PPP") : "Select appointment date"}
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0 bg-black/95 backdrop-blur-2xl border-yellow-500/60 rounded-2xl">
-                              <Calendar
-                                mode="single"
-                                selected={formData.selectedDate}
-                                onSelect={(date) => setFormData({ ...formData, selectedDate: date })}
-                                disabled={(date) => date < new Date()}
-                                initialFocus
-                                className="text-yellow-100"
-                              />
+                              <Calendar mode="single" selected={formData.selectedDate} onSelect={date => setFormData({
+                          ...formData,
+                          selectedDate: date
+                        })} disabled={date => date < new Date()} initialFocus className="text-yellow-100" />
                             </PopoverContent>
                           </Popover>
                         </div>
                         <div>
                           <Label className="text-2xl font-black text-yellow-400 mb-4 block">Time Slot *</Label>
                           <div className="grid grid-cols-3 gap-4">
-                            {timeSlots.map((time) => (
-                              <Button
-                                key={time}
-                                variant={formData.selectedTime === time ? "default" : "outline"}
-                                size="sm"
-                                className={`${
-                                  formData.selectedTime === time 
-                                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black shadow-xl font-black' 
-                                    : 'bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 backdrop-blur-sm'
-                                } transition-all duration-500 py-4 rounded-2xl text-lg hover:scale-105`}
-                                onClick={() => setFormData({ ...formData, selectedTime: time })}
-                              >
+                            {timeSlots.map(time => <Button key={time} variant={formData.selectedTime === time ? "default" : "outline"} size="sm" className={`${formData.selectedTime === time ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black shadow-xl font-black' : 'bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 backdrop-blur-sm'} transition-all duration-500 py-4 rounded-2xl text-lg hover:scale-105`} onClick={() => setFormData({
+                        ...formData,
+                        selectedTime: time
+                      })}>
                                 <Clock className="w-5 h-5 mr-2" />
                                 {time}
-                              </Button>
-                            ))}
+                              </Button>)}
                           </div>
                         </div>
-                      </div>
-                    )}
+                      </div>}
 
                     <div>
                       <Label htmlFor="message" className="text-2xl font-black text-yellow-400 mb-4 block">
                         {activeForm === 'message' ? 'Your Message' : 'Additional Notes'}
                       </Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="min-h-[200px] text-xl bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                        placeholder={
-                          activeForm === 'message' 
-                            ? "Write your message here..." 
-                            : "Any additional information or special requirements..."
-                        }
-                      />
+                      <Textarea id="message" value={formData.message} onChange={e => setFormData({
+                    ...formData,
+                    message: e.target.value
+                  })} className="min-h-[200px] text-xl bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300" placeholder={activeForm === 'message' ? "Write your message here..." : "Any additional information or special requirements..."} />
                     </div>
 
                     <div className="flex gap-8 pt-10">
-                      <Button 
-                        onClick={() => handleSubmit(activeForm)}
-                        className="flex-1 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 hover:from-yellow-600 hover:via-yellow-500 hover:to-yellow-600 text-black font-black py-8 text-2xl rounded-3xl transition-all duration-700 transform hover:scale-105 shadow-2xl relative overflow-hidden"
-                      >
+                      <Button onClick={() => handleSubmit(activeForm)} className="flex-1 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 hover:from-yellow-600 hover:via-yellow-500 hover:to-yellow-600 text-black font-black py-8 text-2xl rounded-3xl transition-all duration-700 transform hover:scale-105 shadow-2xl relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"></div>
                         <span className="relative z-10 flex items-center gap-4">
                           <Rocket className="w-8 h-8" />
@@ -428,25 +344,18 @@ const Index = () => {
                           <Sparkles className="w-8 h-8 animate-spin" />
                         </span>
                       </Button>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => setActiveForm(null)}
-                        className="px-12 py-8 bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 text-2xl rounded-3xl backdrop-blur-sm transition-all duration-500 hover:scale-105"
-                      >
+                      <Button variant="outline" onClick={() => setActiveForm(null)} className="px-12 py-8 bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 text-2xl rounded-3xl backdrop-blur-sm transition-all duration-500 hover:scale-105">
                         Cancel
                       </Button>
                     </div>
                   </CardContent>
                 </div>
-              </Card>
-            )}
+              </Card>}
           </div>
           
           <FooterSection />
         </main>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
-
 export default Index;
