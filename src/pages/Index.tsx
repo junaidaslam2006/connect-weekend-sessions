@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useToast } from '@/hooks/use-toast';
 import { MessageSquare, Phone, Video, Calendar as CalendarIcon, Clock, ArrowRight, Sparkles, Zap, Crown, Rocket, Shield, ChevronRight, Users, Calendar1, Star, Atom, Orbit, Layers, Hexagon } from 'lucide-react';
 import { format } from 'date-fns';
+
 const Index = () => {
   const [activeForm, setActiveForm] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -75,7 +76,7 @@ const Index = () => {
   const services = [{
     id: 'message',
     title: 'Send Message',
-    description: 'Send us a message and we will get back to you as soon as possible',
+    description: 'Send me a message and I will get back to you as soon as possible',
     icon: MessageSquare,
     color: 'from-yellow-400 via-yellow-500 to-yellow-600',
     bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
@@ -85,7 +86,7 @@ const Index = () => {
   }, {
     id: 'phone',
     title: 'Phone Call',
-    description: 'Schedule a phone call appointment with our team',
+    description: 'Schedule a phone call appointment with me',
     icon: Phone,
     color: 'from-yellow-500 via-yellow-400 to-yellow-600',
     bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
@@ -95,7 +96,7 @@ const Index = () => {
   }, {
     id: 'video',
     title: 'Video Call',
-    description: 'Book a video call meeting for face-to-face conversation',
+    description: 'Book a video call meeting with me for face-to-face conversation',
     icon: Video,
     color: 'from-yellow-600 via-yellow-500 to-yellow-400',
     bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
@@ -144,7 +145,7 @@ const Index = () => {
                 </h1>
                 <div className="flex items-center gap-3 mt-2">
                   <Atom className="w-8 h-8 text-yellow-400 animate-spin-slow" />
-                  <p className="text-yellow-200/90 text-2xl font-bold tracking-wide">Professional Appointment Booking</p>
+                  <p className="text-yellow-200/90 text-2xl font-bold tracking-wide">Connect With Us</p>
                   <Layers className="w-8 h-8 text-yellow-500 animate-pulse" />
                 </div>
               </div>
@@ -170,8 +171,9 @@ const Index = () => {
                 
                 <div className="relative mb-20">
                   <p className="text-5xl text-yellow-100/95 leading-relaxed font-bold tracking-wide relative z-10">
-                    Book your appointment today and let us help you with
+                    Book your appointment today and let me help you with
                     <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent"> professional consultation services</span>
+                    . Let's grow together!
                   </p>
                   <div className="absolute -inset-8 bg-gradient-to-r from-yellow-400/5 via-transparent to-yellow-500/5 blur-3xl -z-10 animate-pulse"></div>
                 </div>
@@ -358,4 +360,5 @@ const Index = () => {
       </div>
     </SidebarProvider>;
 };
+
 export default Index;
