@@ -85,8 +85,8 @@ const Index = () => {
     localStorage.setItem('connecthub_submissions', JSON.stringify(existingSubmissions));
 
     toast({
-      title: "🎉 Connection Established!",
-      description: `Your ${type === 'message' ? 'message' : type === 'phone' ? 'voice session' : 'visual meeting'} has been secured in our quantum network.`,
+      title: "🎉 Appointment Booked!",
+      description: `Your ${type === 'message' ? 'message' : type === 'phone' ? 'phone call' : 'video call'} has been successfully scheduled.`,
     });
 
     setFormData({
@@ -107,8 +107,8 @@ const Index = () => {
   const services = [
     {
       id: 'message',
-      title: 'Quantum Message',
-      description: 'Instantaneous communication through our advanced neural network infrastructure',
+      title: 'Send Message',
+      description: 'Send us a message and we will get back to you as soon as possible',
       icon: MessageSquare,
       color: 'from-yellow-400 via-yellow-500 to-yellow-600',
       bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
@@ -118,8 +118,8 @@ const Index = () => {
     },
     {
       id: 'phone',
-      title: 'Neural Voice Sync',
-      description: 'High-fidelity voice connection with quantum-encrypted audio transmission',
+      title: 'Phone Call',
+      description: 'Schedule a phone call appointment with our team',
       icon: Phone,
       color: 'from-yellow-500 via-yellow-400 to-yellow-600',
       bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
@@ -129,8 +129,8 @@ const Index = () => {
     },
     {
       id: 'video',
-      title: 'Holographic Connect',
-      description: 'Ultra-immersive visual experience with next-generation display technology',
+      title: 'Video Call',
+      description: 'Book a video call meeting for face-to-face conversation',
       icon: Video,
       color: 'from-yellow-600 via-yellow-500 to-yellow-400',
       bgColor: 'from-black/95 via-gray-900/95 to-yellow-900/20',
@@ -182,7 +182,7 @@ const Index = () => {
                 </h1>
                 <div className="flex items-center gap-3 mt-2">
                   <Atom className="w-8 h-8 text-yellow-400 animate-spin-slow" />
-                  <p className="text-yellow-200/90 text-2xl font-bold tracking-wide">Neural Connection Matrix</p>
+                  <p className="text-yellow-200/90 text-2xl font-bold tracking-wide">Professional Appointment Booking</p>
                   <Layers className="w-8 h-8 text-yellow-500 animate-pulse" />
                 </div>
               </div>
@@ -208,8 +208,8 @@ const Index = () => {
                 
                 <div className="relative mb-20">
                   <p className="text-5xl text-yellow-100/95 leading-relaxed font-bold tracking-wide relative z-10">
-                    Experience the future of human connection through our
-                    <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent"> quantum-powered neural network</span>
+                    Book your appointment today and let us help you with
+                    <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent"> professional consultation services</span>
                   </p>
                   <div className="absolute -inset-8 bg-gradient-to-r from-yellow-400/5 via-transparent to-yellow-500/5 blur-3xl -z-10 animate-pulse"></div>
                 </div>
@@ -283,7 +283,7 @@ const Index = () => {
                         <Button className={`bg-gradient-to-r ${service.color} hover:opacity-90 text-black font-black px-12 py-8 rounded-3xl transition-all duration-700 transform group-hover:scale-110 shadow-2xl text-xl relative overflow-hidden`}>
                           <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"></div>
                           <span className="relative z-10 flex items-center gap-3">
-                            Initialize Connection
+                            Book Now
                             <ChevronRight className="w-6 h-6" />
                           </span>
                         </Button>
@@ -310,49 +310,49 @@ const Index = () => {
                       <Rocket className="w-16 h-16 text-yellow-500 animate-bounce" />
                     </div>
                     <CardDescription className="text-yellow-100/95 text-2xl font-bold">
-                      Initialize your quantum connection protocol
+                      Fill out the form below to get started
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-10 px-12 pb-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                       <div>
-                        <Label htmlFor="name" className="text-2xl font-black text-yellow-400 mb-4 block">Neural ID *</Label>
+                        <Label htmlFor="name" className="text-2xl font-black text-yellow-400 mb-4 block">Full Name *</Label>
                         <Input
                           id="name"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                          placeholder="Enter your quantum identifier"
+                          placeholder="Enter your full name"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="phone" className="text-2xl font-black text-yellow-400 mb-4 block">Neural Link *</Label>
+                        <Label htmlFor="phone" className="text-2xl font-black text-yellow-400 mb-4 block">Phone Number *</Label>
                         <Input
                           id="phone"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                          placeholder="Your connection frequency"
+                          placeholder="Your phone number"
                         />
                       </div>
                     </div>
                     
                     <div>
-                      <Label htmlFor="email" className="text-2xl font-black text-yellow-400 mb-4 block">Quantum Address *</Label>
+                      <Label htmlFor="email" className="text-2xl font-black text-yellow-400 mb-4 block">Email Address *</Label>
                       <Input
                         id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="text-xl py-6 bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
-                        placeholder="your.neural@quantum.net"
+                        placeholder="your.email@example.com"
                       />
                     </div>
 
                     {(activeForm === 'phone' || activeForm === 'video') && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div>
-                          <Label className="text-2xl font-black text-yellow-400 mb-4 block">Connection Date *</Label>
+                          <Label className="text-2xl font-black text-yellow-400 mb-4 block">Appointment Date *</Label>
                           <Popover>
                             <PopoverTrigger asChild>
                               <Button
@@ -360,7 +360,7 @@ const Index = () => {
                                 className="w-full justify-start text-left font-normal py-6 text-xl bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 backdrop-blur-sm rounded-2xl transition-all duration-300"
                               >
                                 <Calendar1 className="mr-4 h-8 w-8" />
-                                {formData.selectedDate ? format(formData.selectedDate, "PPP") : "Select neural sync date"}
+                                {formData.selectedDate ? format(formData.selectedDate, "PPP") : "Select appointment date"}
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0 bg-black/95 backdrop-blur-2xl border-yellow-500/60 rounded-2xl">
@@ -376,7 +376,7 @@ const Index = () => {
                           </Popover>
                         </div>
                         <div>
-                          <Label className="text-2xl font-black text-yellow-400 mb-4 block">Time Frequency *</Label>
+                          <Label className="text-2xl font-black text-yellow-400 mb-4 block">Time Slot *</Label>
                           <div className="grid grid-cols-3 gap-4">
                             {timeSlots.map((time) => (
                               <Button
@@ -401,7 +401,7 @@ const Index = () => {
 
                     <div>
                       <Label htmlFor="message" className="text-2xl font-black text-yellow-400 mb-4 block">
-                        {activeForm === 'message' ? 'Neural Message' : 'Connection Parameters'}
+                        {activeForm === 'message' ? 'Your Message' : 'Additional Notes'}
                       </Label>
                       <Textarea
                         id="message"
@@ -410,8 +410,8 @@ const Index = () => {
                         className="min-h-[200px] text-xl bg-black/60 border-yellow-500/40 text-yellow-100 placeholder:text-yellow-500/60 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm rounded-2xl transition-all duration-300"
                         placeholder={
                           activeForm === 'message' 
-                            ? "Transmit your quantum message through our neural network..." 
-                            : "Specify connection protocols and neural sync parameters..."
+                            ? "Write your message here..." 
+                            : "Any additional information or special requirements..."
                         }
                       />
                     </div>
@@ -424,7 +424,7 @@ const Index = () => {
                         <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"></div>
                         <span className="relative z-10 flex items-center gap-4">
                           <Rocket className="w-8 h-8" />
-                          Establish Quantum Link
+                          Submit Request
                           <Sparkles className="w-8 h-8 animate-spin" />
                         </span>
                       </Button>
@@ -433,7 +433,7 @@ const Index = () => {
                         onClick={() => setActiveForm(null)}
                         className="px-12 py-8 bg-black/60 border-yellow-500/40 text-yellow-100 hover:bg-black/80 text-2xl rounded-3xl backdrop-blur-sm transition-all duration-500 hover:scale-105"
                       >
-                        Abort Connection
+                        Cancel
                       </Button>
                     </div>
                   </CardContent>
