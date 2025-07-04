@@ -8,7 +8,7 @@
 
 ### ✅ User Side
 - 📩 **Message Me** – Send direct messages anytime.
-- 📞 **Voice Call Booking** – Book voice calls (Available only on weekends).
+- 📞 **Voice Call Booking** – Book voice calls (Available only on weekends)
 - 🎥 **Video Call Booking** – Schedule video calls (Available only on weekends).
 - 🧑‍💻 **One-on-One Interface** – Only two people per session: me and the user.
 
